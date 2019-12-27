@@ -19,35 +19,35 @@ import org.springframework.jdbc.datasource.init.UncategorizedScriptException;
 
 public class MyBatisMigrationsPopulator implements DatabasePopulator {
 
-  private final DataSource dataSource;
+    private final DataSource dataSource;
 
-  private final String scriptsDir;
+    private final String scriptsDir;
 
-  private final Properties properties;
+    private final Properties properties;
 
-  private final DatabaseOperationOption options;
+    private final DatabaseOperationOption options;
 
-  public MyBatisMigrationsPopulator(DataSource dataSource, String scriptsDir, Properties properties, DatabaseOperationOption options) {
-    super();
-    this.dataSource = dataSource;
-    this.scriptsDir = scriptsDir;
-    this.properties = properties;
-    this.options = options;
-  }
-
-  @Override
-  public void populate(Connection connection) throws SQLException, ScriptException {
-    try {
-      new UpOperation().operate(new DataSourceConnectionProvider(dataSource), createMigrationsLoader(), options, null);
-    } catch (MigrationException e) {
-      throw new UncategorizedScriptException("Migration failed.", e.getCause());
+    public MyBatisMigrationsPopulator(DataSource dataSource, String scriptsDir, Properties properties, DatabaseOperationOption options) {
+        super();
+        this.dataSource = dataSource;
+        this.scriptsDir = scriptsDir;
+        this.properties = properties;
+        this.options = options;
     }
-  }
 
-  protected FileMigrationLoader createMigrationsLoader() {
-    URL url = getClass().getClassLoader().getResource(scriptsDir);
-    File dir = new File(url.getFile());
-    return new FileMigrationLoader(dir, "utf-8", properties);
-  }
+    @Override
+    public void populate(Connection connection) throws SQLException, ScriptException {
+        try {
+            new UpOperation().operate(new DataSourceConnectionProvider(dataSource), createMigrationsLoader(), options, null);
+        } catch (MigrationException e) {
+            throw new UncategorizedScriptException("Migration failed.", e.getCause());
+        }
+    }
+
+    protected FileMigrationLoader createMigrationsLoader() {
+        URL url = getClass().getClassLoader().getResource(scriptsDir);
+        File dir = new File(url.getFile());
+        return new FileMigrationLoader(dir, "utf-8", properties);
+    }
 
 }

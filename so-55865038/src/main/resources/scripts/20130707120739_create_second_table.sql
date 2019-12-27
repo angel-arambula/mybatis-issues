@@ -1,4 +1,4 @@
-CREATE TABLE second_table (
+CREATE TABLE sd_nm_data.second_table (
 ID INTEGER NOT NULL,
 NAME VARCHAR(16)
 );
@@ -6,4 +6,4 @@ NAME VARCHAR(16)
 -- //@UNDO
 -- SQL to undo the change goes here.
 
-DROP TABLE second_table;
+DROP TABLE sd_nm_data.second_table;
